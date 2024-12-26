@@ -243,6 +243,10 @@ function ProductList() {
         return cartItems.reduce((total, item) => total + item.quantity, 0);
     }
 
+    const alreadyInCart = (itemName) => {
+        return cartItems.some((item) => item.name === itemName);
+    }
+
    const handleAddToCart = (product) => {
     dispatch(addItem(product));
     setAddedToCart((prevState) => ({
@@ -297,7 +301,16 @@ const handlePlantsClick = (e) => {
                         <div className="product-title">{plant.name}</div>
                         <div className="product-description">{plant.description}</div>
                         <div className="product-cost">{plant.cost}</div>
-                        <button  className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                        {
+                            alreadyInCart(plant.name) ?
+                                (
+                                    <button className="product-button" style={{ backgroundColor: "gray" }} disabled="true">Added to Cart</button>
+                                )
+                                :
+                                (
+                                    <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                )
+                        }
                     </div>
                     ))}
                 </div>
